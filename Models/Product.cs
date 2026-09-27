@@ -6,10 +6,13 @@ namespace Models
         public string Name {get; set;}
         public string Sku {get; set;}
         public int Stock {get; set;}
+        public List<StockChanges> StockChanges {get; set;} = new List<StockChanges>();
     }
     public class StockChanges
     {
-        public string Date {get; set;}
+        public int StockChangesId {get; set;}
+        public int ProductId {get; set;}
+        public DateTimeOffset Date {get; set;}
         public int Delta {get; set;}
         public string Source {get; set;}
 

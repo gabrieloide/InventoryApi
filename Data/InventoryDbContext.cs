@@ -11,6 +11,7 @@ namespace Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<PendingOperation> PendingOperations { get; set; }
+        public DbSet<StockChanges> StockChanges { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
