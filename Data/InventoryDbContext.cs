@@ -11,5 +11,11 @@ namespace Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<PendingOperation> PendingOperations { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+            .HasIndex(p => p.Sku)
+            .IsUnique();
+        }
     }
 }
