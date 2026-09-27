@@ -19,6 +19,12 @@ app.MapGet("/products", async (InventoryDbContext db) =>
 
 app.MapPost("/products", async (Product product, InventoryDbContext db) =>
     {
+        var skuExists = await db.Products.AnyAsync(p => p.Sku == product.Sku);
+        if (skuExists)
+        {
+            return Results.Conflict("A product with this SKU already exists.");
+        }
+
         db.Products.Add(product);
         await db.SaveChangesAsync();
         return Results.Created($"/products/{product.ProductId}", product);
@@ -30,6 +36,12 @@ app.MapPut("/products/{id}", async (int id, Product product, InventoryDbContext 
         if (existingProduct == null)
         {
             return Results.NotFound();
+        }
+
+        var skuConflict = await db.Products.AnyAsync(p => p.Sku == product.Sku && p.ProductId != id);
+        if (skuConflict)
+        {
+            return Results.Conflict("A product with this SKU already exists.");
         }
 
         existingProduct.Name = product.Name;
